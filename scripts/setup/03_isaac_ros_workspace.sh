@@ -70,11 +70,17 @@ fi
 if ! check_step "vslam_uav"; then
     log_step "Clone VSLAM-UAV"
     VSLAM_DIR="${ISAAC_ROS_WS}/VSLAM-UAV"
-    if [ -d "${VSLAM_DIR}/.git" ]; then
-        log_info "VSLAM-UAV already cloned."
-    else
+    if [ ! -d "${VSLAM_DIR}/.git" ]; then
         git clone https://github.com/bandofpv/VSLAM-UAV.git "${VSLAM_DIR}"
+    else
+        log_info "VSLAM-UAV already cloned."
     fi
+
+    # Copy our customized launch files over the upstream versions
+    log_info "Installing custom launch files..."
+    cp "${ISAAC_ROS_WS}/launch/isaac_ros_vslam_realsense.py" "${VSLAM_DIR}/vslam/"
+    cp "${ISAAC_ROS_WS}/launch/mavrospy.launch.py"           "${VSLAM_DIR}/vslam/"
+
     mark_step_done "vslam_uav"
 else
     log_info "VSLAM-UAV already cloned."
