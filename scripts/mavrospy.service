@@ -1,0 +1,18 @@
+[Unit]
+Description=MAVROSpy VSLAM Node
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+User=sjdailey
+ExecStart=/ssd/workspaces/isaac_ros-dev/scripts/start_mavrospy.sh
+TimeoutStartSec=60
+ExecStop=docker stop mavrospy-vslam-container
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

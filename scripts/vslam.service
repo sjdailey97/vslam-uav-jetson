@@ -1,0 +1,17 @@
+[Unit]
+Description=Isaac ROS VSLAM Node
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=simple
+User=sjdailey
+ExecStart=/ssd/workspaces/isaac_ros-dev/scripts/start_vslam.sh
+ExecStop=docker stop isaac_ros_dev-aarch64-container
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
